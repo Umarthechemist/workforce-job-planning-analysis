@@ -157,7 +157,11 @@ Fact_Activity
       |
 Dim_Category
 ```
+### Model View
 
+![Power BI Data Model](images/data-model.png)
+
+The model uses one-to-many relationships from `Dim_Profession` and `Dim_Category` into `Fact_Activity`, with a separate `Measures` table used to organise DAX calculations.
 ### Fact Table
 
 `Fact_Activity`
