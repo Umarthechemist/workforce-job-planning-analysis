@@ -4,7 +4,7 @@
 
 The Power BI solution uses a dimensional model to separate descriptive attributes from activity-level measures.
 
-The main model consists of:
+The core model consists of:
 
 ```text
 Dim_Profession
@@ -28,7 +28,7 @@ This structure supports analysis of planned workforce activity by profession, re
 
 ### Fact_Activity
 
-The `Fact_Activity` table contains the activity-level records used for analysis.
+The `Fact_Activity` table contains the activity-level records used in the analysis.
 
 Key fields include:
 
@@ -39,7 +39,7 @@ Key fields include:
 - Profession key
 - Category key
 
-The fact table stores the numerical measures used by the Power BI report.
+The fact table provides the numerical activity measures used by the Power BI report.
 
 ---
 
@@ -47,7 +47,7 @@ The fact table stores the numerical measures used by the Power BI report.
 
 ### Dim_Profession
 
-The `Dim_Profession` table contains the professional group associated with each activity record.
+The `Dim_Profession` table contains the professional groups associated with the activity records.
 
 It is used to analyse planned workforce hours by profession.
 
@@ -64,7 +64,7 @@ Examples of profession groups in the synthetic portfolio version include:
 - Podiatrist
 - Support to AHP
 
-The public portfolio uses synthetic records only.
+All profession records in the public portfolio version are synthetic.
 
 ---
 
@@ -72,7 +72,7 @@ The public portfolio uses synthetic records only.
 
 ### Dim_Category
 
-The `Dim_Category` table contains the analytical reporting categories used in the project.
+The `Dim_Category` table contains the reporting categories used throughout the analysis.
 
 The main reporting groups are:
 
@@ -81,7 +81,7 @@ The main reporting groups are:
 - DCC Teaching & Training
 - SPA Teaching & Training
 
-These values were created by combining the original `Category` and `Subcategory` fields.
+These reporting groups are created by combining the `Category` and `Subcategory` fields.
 
 Example:
 
@@ -111,7 +111,9 @@ Dim_Category (1)
 Fact_Activity
 ```
 
-This allows profession and category filters to propagate to the activity records and the DAX measures calculated from them.
+The dimension tables provide the filtering context, while `Fact_Activity` stores the detailed activity records and numerical measures.
+
+This allows profession and category filters to propagate to the fact table and affect the DAX measures used in the report.
 
 ---
 
@@ -120,10 +122,10 @@ This allows profession and category filters to propagate to the activity records
 Using separate fact and dimension tables provides several benefits:
 
 - clearer model structure;
-- reduced duplication of descriptive fields;
+- reduced duplication of descriptive attributes;
 - easier filtering and grouping;
 - simpler DAX calculations;
-- improved report maintainability;
-- easier extension if additional workforce reporting categories are added later.
+- improved maintainability;
+- easier extension if additional reporting categories are introduced later.
 
-The dimensional model also makes the project easier to understand and document as part of a technical portfolio.
+The dimensional model also makes the analytical workflow easier to understand, document and maintain as part of a technical portfolio.
