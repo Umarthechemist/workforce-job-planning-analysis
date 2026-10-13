@@ -4,7 +4,7 @@
 
 Power Query was used to prepare the workforce activity data for analysis and modelling in Power BI.
 
-The transformation process converted the source activity data into a structure suitable for dimensional modelling and DAX calculations.
+The transformation process converted the activity-level source data into a structured dataset suitable for dimensional modelling, DAX calculations and dashboard reporting.
 
 ---
 
@@ -12,11 +12,11 @@ The transformation process converted the source activity data into a structure s
 
 ### 1. Data Type Assignment
 
-Appropriate data types were assigned to the source columns to ensure that text, numerical and time fields were handled correctly.
+Appropriate data types were assigned to the source columns to ensure that text, numerical and time-based fields were handled correctly.
 
 Examples included:
 
-- text fields for profession, category and activity;
+- text fields for profession, category, subcategory and activity;
 - numerical fields for planned hours;
 - time fields where relevant.
 
@@ -24,15 +24,15 @@ Examples included:
 
 ### 2. Removal of Unnecessary Fields
 
-The `Preferred Name` field was removed because it was not required for the management analysis.
+The `Preferred Name` field was removed because it was not required for the analytical requirement.
 
-The analysis focused on workforce activity at profession level rather than identifying individual employees.
+The report focused on workforce activity at profession level rather than individual employee identification.
 
 ---
 
 ### 3. Combined Category Creation
 
-A new field called `CombinedCategory` was created by joining the `Category` and `Subcategory` fields.
+A new field called `CombinedCategory` was created by concatenating the `Category` and `Subcategory` fields.
 
 The Power Query logic was:
 
@@ -46,36 +46,36 @@ For example:
 Category: SPA
 Subcategory: Research & Improvement
 
-Result:
+CombinedCategory:
 SPA Research & Improvement
 ```
 
-The resulting reporting categories included:
+The resulting reporting groups included:
 
 - SPA Research & Improvement
 - ED Research & Improvement
 - DCC Teaching & Training
 - SPA Teaching & Training
 
-This field was later used in DAX calculations and report filtering.
+The `CombinedCategory` field was later used in DAX calculations and dashboard filtering.
 
 ---
 
 ### 4. Filtering Invalid Records
 
-Records were excluded where:
+Rows were filtered to exclude records where:
 
 - `CombinedCategory` was null;
 - `Activity` was null;
-- `Activity` contained the value `blank`.
+- `Activity` contained the literal value `blank`.
 
-This ensured that only valid activity records were included in the analytical model.
+The filtering logic ensured that incomplete activity records were excluded from the analytical model.
 
 ---
 
 ### 5. Activity ID Creation
 
-An index column was added starting from `1`.
+A sequential index column was added starting from `1`.
 
 The index was then renamed:
 
@@ -83,19 +83,19 @@ The index was then renamed:
 Index → ActivityID
 ```
 
-This created a sequential identifier for the activity-level records used in the model.
+This created a unique sequential identifier for each activity-level record used in the model.
 
 ---
 
 ### 6. Column Reordering
 
-Columns were reordered to create a clearer structure before the data was referenced by the dimension and fact queries.
+Columns were reordered to create a clearer and more consistent structure before the transformed table was referenced by downstream model queries.
 
 ---
 
 ## Downstream Queries
 
-The transformed activity table was used as the source for:
+The transformed `TblActivityReport` query was used as the source for:
 
 ```text
 Dim_Profession
@@ -103,24 +103,44 @@ Dim_Category
 Fact_Activity
 ```
 
-This allowed the Power Query preparation layer to feed the dimensional model without repeating the original transformation logic.
+This approach allowed the main transformation logic to be defined once and then reused by the dimension and fact queries.
+
+The resulting workflow was:
+
+```text
+Synthetic / Source Activity Data
+            ↓
+     TblActivityReport
+            ↓
+   ┌────────┼────────┐
+   ↓        ↓        ↓
+Dim_Profession
+Dim_Category
+Fact_Activity
+```
 
 ---
 
 ## Public Portfolio Version
 
-The original project used internal operational data.
+The original operational solution used an Excel workbook containing internal workforce data.
 
-For this public portfolio version, the original Excel source was removed and replaced with a fully synthetic Power Query dataset.
+For the public portfolio version:
 
-The synthetic source preserves:
+- the original Excel connection was removed;
+- a separate synthetic Power Query source was created;
+- the synthetic source feeds the existing transformation workflow;
+- the dimensional model and DAX logic were preserved;
+- all published dashboard values are generated from synthetic records.
 
-- the required field structure;
+The synthetic data preserves the analytical structure required to demonstrate:
+
 - profession-level analysis;
 - activity categories;
 - weekly and monthly hours;
-- the transformation workflow;
-- the dimensional model;
-- the DAX calculations.
+- Power Query transformations;
+- dimensional modelling;
+- DAX calculations;
+- Power BI dashboard design.
 
-No original workforce records or genuine organisational values are included in the public Power BI file.
+No original workforce records, employee identifiers or genuine organisational values are included in the public Power BI file.
