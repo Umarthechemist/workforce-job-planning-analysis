@@ -2,9 +2,9 @@
 
 ## Overview
 
-DAX measures were created to calculate total planned workforce hours and to isolate the four reporting areas required by the management request.
+DAX measures were created to calculate planned workforce hours and isolate the four reporting areas required by the management request.
 
-The solution uses reusable base measures and category-specific measures.
+The solution uses reusable base measures together with category-specific measures.
 
 ---
 
@@ -17,7 +17,7 @@ Total Hours Per Week =
 SUM ( Fact_Activity[Hours per week] )
 ```
 
-This measure calculates the total planned weekly hours across the filtered activity records.
+This measure calculates the total planned weekly hours within the current filter context.
 
 ---
 
@@ -28,7 +28,7 @@ Total Hours Per Month =
 SUM ( Fact_Activity[Hours Per Month] )
 ```
 
-This measure calculates the total planned monthly hours across the filtered activity records.
+This measure calculates the total planned monthly hours within the current filter context.
 
 ---
 
@@ -130,11 +130,9 @@ CALCULATE (
 
 ## DAX Design Approach
 
-The measure design follows a reusable pattern.
+The measure design follows a reusable calculation pattern.
 
-Base measures calculate the total weekly and monthly planned hours, while `CALCULATE` is used to modify the filter context for each reporting category.
-
-This avoids repeating aggregation logic and makes the model easier to maintain.
+The two base measures calculate total weekly and monthly planned hours. Category-specific measures then use `CALCULATE` to modify the filter context so that the same base logic can be reused for each reporting area.
 
 The general pattern is:
 
@@ -146,4 +144,4 @@ CALCULATE (
 )
 ```
 
-This approach allows the same base calculations to be reused across multiple dashboard pages and professional groupings.
+This approach reduces duplication, improves maintainability and allows the same measures to respond dynamically to profession-level and activity-level filters used throughout the report.
