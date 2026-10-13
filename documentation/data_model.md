@@ -114,8 +114,22 @@ Fact_Activity[CategoryID]
 The dimension tables provide the filtering context, while `Fact_Activity` stores the detailed activity records and numerical measures.
 
 Filtering flows from the dimension tables into the fact table, allowing profession and category selections to affect the DAX measures used throughout the report.
----
+## Measures Table
 
+### Measures
+
+A dedicated measures table is used to organise the DAX calculations used throughout the report.
+
+This includes:
+
+- Total Hours Per Week
+- Total Hours Per Month
+- SPA Research & Improvement measures
+- ED Research & Improvement measures
+- DCC Teaching & Training measures
+- SPA Teaching & Training measures
+
+Using a dedicated measures table keeps calculations separate from the fact and dimension tables and makes the model easier to navigate and maintain.
 ## Why a Dimensional Model Was Used
 
 Using separate fact and dimension tables provides several benefits:
