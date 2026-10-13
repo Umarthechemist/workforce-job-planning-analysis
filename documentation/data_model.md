@@ -36,8 +36,8 @@ Key fields include:
 - `Activity`
 - `Hours per week`
 - `Hours Per Month`
-- Profession key
-- Category key
+- ProfessionID
+- CategoryID
 
 The fact table provides the numerical activity measures used by the Power BI report.
 
@@ -100,21 +100,20 @@ SPA Research & Improvement
 The model uses one-to-many relationships between the dimension tables and the fact table.
 
 ```text
-Dim_Profession (1)
+Dim_Profession[ProfessionID] (1)
         |
         *
-Fact_Activity
+Fact_Activity[ProfessionID]
 
-Dim_Category (1)
+Dim_Category[CategoryID] (1)
         |
         *
-Fact_Activity
+Fact_Activity[CategoryID]
 ```
 
 The dimension tables provide the filtering context, while `Fact_Activity` stores the detailed activity records and numerical measures.
 
-This allows profession and category filters to propagate to the fact table and affect the DAX measures used in the report.
-
+Filtering flows from the dimension tables into the fact table, allowing profession and category selections to affect the DAX measures used throughout the report.
 ---
 
 ## Why a Dimensional Model Was Used
