@@ -36,8 +36,8 @@ Key fields include:
 - `Activity`
 - `Hours per week`
 - `Hours Per Month`
-- ProfessionID
-- CategoryID
+- `ProfessionID`
+- `CategoryID`
 
 The fact table provides the numerical activity measures used by the Power BI report.
 
