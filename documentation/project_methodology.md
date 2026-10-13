@@ -4,7 +4,7 @@
 
 This project was developed in response to a real workforce-management reporting requirement within a healthcare setting.
 
-The aim was to analyse job-planned hours by profession across selected Research & Improvement and Teaching & Training activities.
+The aim was to analyse job-planned hours by profession across selected **Research & Improvement** and **Teaching & Training** activities.
 
 The original operational solution used internal workforce data. The public portfolio version uses synthetic data only.
 
@@ -38,7 +38,7 @@ The reporting requirement focused on understanding:
 
 - how many planned hours were allocated to specific activities;
 - how those hours were distributed across professions;
-- weekly versus monthly workforce allocation;
+- weekly and monthly workforce allocation;
 - differences across Research & Improvement and Teaching & Training activity groups.
 
 The requirement was translated into four analytical reporting areas:
@@ -52,30 +52,32 @@ The requirement was translated into four analytical reporting areas:
 
 ## 2. Data Preparation
 
-The source data was initially reviewed in Excel.
+The source data was initially reviewed in Excel before being loaded into Power BI.
 
-A monthly-hours field was derived using:
+A monthly planned-hours field was derived using:
 
 ```text
 Hours Per Month = Hours Per Week × 4
 ```
 
-The prepared dataset was then loaded into Power BI.
+This provided the monthly equivalent required for the management report.
 
 ---
 
 ## 3. Data Transformation
 
-Power Query was used to:
+Power Query was used to prepare the activity-level data for analysis and modelling.
 
-- assign suitable data types;
-- remove unnecessary fields;
-- create a combined reporting category;
-- remove incomplete activity records;
-- create a unique activity identifier;
-- prepare the data for dimensional modelling.
+Key transformation steps included:
 
-The central transformation created:
+- assigning appropriate data types;
+- removing fields not required for the analysis;
+- combining `Category` and `Subcategory` into `CombinedCategory`;
+- filtering incomplete or invalid activity records;
+- creating a sequential `ActivityID`;
+- preparing the transformed table for downstream dimension and fact queries.
+
+The main category transformation followed:
 
 ```text
 Category + Subcategory = CombinedCategory
@@ -93,13 +95,15 @@ SPA Research & Improvement
 
 ## 4. Data Modelling
 
-The transformed data was organised using a dimensional model with:
+The transformed data was organised into a dimensional model consisting of:
 
 - `Fact_Activity`
 - `Dim_Profession`
 - `Dim_Category`
 
-This structure supported profession-level and category-level analysis while keeping the DAX measures relatively simple.
+The dimension tables provide descriptive filtering context, while the fact table stores the activity-level records and numerical measures.
+
+This structure supported profession-level and category-level analysis while keeping the DAX logic simple and reusable.
 
 ---
 
@@ -114,13 +118,15 @@ Reusable DAX measures were created for:
 - DCC Teaching & Training
 - SPA Teaching & Training
 
-The use of base measures reduced duplication and allowed category-specific measures to be created using `CALCULATE`.
+The use of base measures reduced duplication and allowed category-specific calculations to be created using `CALCULATE`.
+
+This design also allowed the measures to respond dynamically to profession and activity filters used throughout the report.
 
 ---
 
 ## 6. Dashboard Development
 
-The final Power BI report was designed as a multi-page dashboard.
+The final Power BI solution was designed as a multi-page dashboard.
 
 Each reporting page included a combination of:
 
@@ -131,7 +137,7 @@ Each reporting page included a combination of:
 - interactive filtering;
 - navigation between reporting areas.
 
-The dashboard was designed to allow management users to move from high-level workforce allocation to detailed activity analysis.
+The dashboard was designed to allow users to move from high-level workforce allocation to more detailed analysis of individual activity groups.
 
 ---
 
@@ -142,15 +148,16 @@ The original project contained internal organisational workforce data.
 For portfolio publication:
 
 - the original Excel workbook was excluded;
-- the original Power BI file was not published;
-- employee-level identifiers were removed;
+- the original operational Power BI file was not published;
+- employee-level identifiers were not included;
 - original organisational totals were not disclosed;
-- a separate Power BI portfolio copy was created;
-- the original data source connection was removed;
+- a separate portfolio Power BI file was created;
+- the original Excel data-source connection was removed;
 - synthetic activity records were generated independently in Power Query;
-- all portfolio screenshots were recreated using synthetic data.
+- the existing transformation, modelling and DAX logic was preserved;
+- all published dashboard screenshots were recreated using synthetic data.
 
-This allowed the technical solution to be demonstrated without exposing operational data.
+This allowed the technical solution and analytical approach to be demonstrated without exposing confidential operational information.
 
 ---
 
@@ -158,16 +165,16 @@ This allowed the technical solution to be demonstrated without exposing operatio
 
 This project strengthened practical experience in:
 
-- translating stakeholder requests into analytical requirements;
+- translating stakeholder requirements into analytical outputs;
 - workforce-data preparation;
 - Power Query transformation;
-- dimensional modelling;
-- DAX measure development;
+- dimensional data modelling;
+- reusable DAX measure development;
 - filter context;
 - Power BI dashboard design;
 - data governance;
 - technical documentation;
-- preparing professional work for a public portfolio.
+- preparing professional analytical work for a public portfolio.
 
 ---
 
@@ -188,4 +195,4 @@ Business Problem
 → Documentation
 ```
 
-The public repository is designed to demonstrate the analytical method and technical implementation while ensuring that no genuine organisational workforce data is disclosed.
+The public repository is designed to demonstrate the analytical method, technical implementation and problem-solving approach while ensuring that no genuine organisational workforce data is disclosed.
